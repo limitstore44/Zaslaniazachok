@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Узнай кто засланный казачок?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Meme Font -->
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Comic Neue', cursive;
+        background: radial-gradient(circle at top, #ff004c, #1a001f);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        background: rgba(0,0,0,0.85);
+        padding: 35px;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+        box-shadow: 0 0 40px rgba(255,0,80,0.6);
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 0 black;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(45deg, #ff0000, #ff9900);
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    .result {
+        margin-top: 25px;
+        font-size: 22px;
+        min-height: 30px;
+    }
+
+    .kazachok {
+        color: #ff4444;
+        animation: shake 0.4s infinite;
+    }
+
+    .normal {
+        color: #55ff55;
+        animation: pop 0.4s ease;
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
+
+    @keyframes pop {
+        0% { transform: scale(0.5); }
+        100% { transform: scale(1); }
+    }
+</style>
+
+</head>
+<body><div class="container">
+    <h1>🤨 Узнай кто засланный казачок?</h1><input type="text" id="nameInput" placeholder="Впиши имя или текст...">
+
+<button onclick="checkKazachok()">ПРОВЕРИТЬ</button>
+
+<div class="result" id="result"></div>
+
+<!-- Звуки -->
+<!-- Положи файлы рядом с этим HTML -->
+<!-- good.mp3 - если НЕ казачок -->
+<!-- bad.mp3 - если казачок -->
+
+<audio id="goodSound" src="good.mp3"></audio>
+<audio id="badSound" src="bad.mp3"></audio>
+
+</div><script>
+function checkKazachok() {
+    const input = document.getElementById("nameInput").value.trim();
+    const result = document.getElementById("result");
+    const goodSound = document.getElementById("goodSound");
+    const badSound = document.getElementById("badSound");
+
+    if (input === "") {
+        result.textContent = "Сначала что-нибудь впиши 😡";
+        return;
+    }
+
+    const isKazachok = Math.random() < 0.5; // 50/50
+
+    goodSound.pause();
+    badSound.pause();
+    goodSound.currentTime = 0;
+    badSound.currentTime = 0;
+
+    if (isKazachok) {
+        result.textContent = "💀 Да, засланный казачок, истребить это существо";
+        result.className = "result kazachok";
+        badSound.play();
+    } else {
+        result.textContent = "😎 Нет, это норм чел";
+        result.className = "result normal";
+        goodSound.play();
+    }
+}
+</script></body>
+</html>
