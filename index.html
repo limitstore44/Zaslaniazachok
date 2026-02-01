@@ -2,8 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Узнай кто засланный казачок?</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Meme Font -->
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 
 <style>
     body {
@@ -14,6 +13,25 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+    }
+
+    /* ЛОГО СЛЕВА СВЕРХУ */
+    .logo-box {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 70px;
+        height: 70px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(255,0,80,0.8);
+    }
+
+    .logo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .container {
@@ -60,7 +78,7 @@
     .result {
         margin-top: 25px;
         font-size: 22px;
-        min-height: 30px;
+        min-height: 40px;
     }
 
     .kazachok {
@@ -85,23 +103,56 @@
         0% { transform: scale(0.5); }
         100% { transform: scale(1); }
     }
+
+    /* ФУТЕР */
+    .footer {
+        margin-top: 25px;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    .tg-circle {
+        margin: 12px auto 0;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #229ED9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        font-size: 22px;
+        box-shadow: 0 0 12px rgba(34,158,217,0.8);
+        transition: 0.2s;
+    }
+
+    .tg-circle:hover {
+        transform: scale(1.1);
+    }
 </style>
 
 </head>
-<body><div class="container">
+<body><!-- ЛОГО --><div class="logo-box">
+    <img src="Kalivan.jpg" alt="Kalivan">
+</div><div class="container">
     <h1>🤨 Узнай кто засланный казачок?</h1><input type="text" id="nameInput" placeholder="Впиши имя или текст...">
 
 <button onclick="checkKazachok()">ПРОВЕРИТЬ</button>
 
 <div class="result" id="result"></div>
 
-<!-- Звуки -->
-<!-- Положи файлы рядом с этим HTML -->
-<!-- good.mp3 - если НЕ казачок -->
-<!-- bad.mp3 - если казачок -->
-
+<!-- ЗВУКИ -->
 <audio id="goodSound" src="good.mp3"></audio>
 <audio id="badSound" src="bad.mp3"></audio>
+
+<!-- ФУТЕР -->
+<div class="footer">
+    Бот создан VapeStoreBro.<br>
+    При поддержке Limit Kostroma
+
+    <a class="tg-circle" href="https://t.me/VapeStoreBro" target="_blank">✈</a>
+</div>
 
 </div><script>
 function checkKazachok() {
@@ -115,7 +166,23 @@ function checkKazachok() {
         return;
     }
 
-    const isKazachok = Math.random() < 0.5; // 50/50
+    const badPhrases = [
+        "уничтожить немедленно",
+        "изгнать в подвал",
+        "запаковать в мешок",
+        "вызвать инквизицию",
+        "изолировать от общества"
+    ];
+
+    const goodPhrases = [
+        "благословить",
+        "дать пива",
+        "обнять",
+        "повысить до легенды",
+        "уважать"
+    ];
+
+    const isKazachok = Math.random() < 0.5;
 
     goodSound.pause();
     badSound.pause();
@@ -123,11 +190,13 @@ function checkKazachok() {
     badSound.currentTime = 0;
 
     if (isKazachok) {
-        result.textContent = "💀 Да, засланный казачок, истребить это существо";
+        const action = badPhrases[Math.floor(Math.random()*badPhrases.length)];
+        result.textContent = `💀 Да, ${input} — засланный казачок, ${action}`;
         result.className = "result kazachok";
         badSound.play();
     } else {
-        result.textContent = "😎 Нет, это норм чел";
+        const action = goodPhrases[Math.floor(Math.random()*goodPhrases.length)];
+        result.textContent = `😎 Нет, ${input} — это нормальный чел, ${action}`;
         result.className = "result normal";
         goodSound.play();
     }
